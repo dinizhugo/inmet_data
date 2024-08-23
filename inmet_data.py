@@ -27,7 +27,7 @@ class ExtractInmetData:
             self.__baixar_arquivo(url, arquivo_destino)
             self.__extrair_arquivo_zip(arquivo_destino, ano)
             
-    def get_dados_por_estado(self, anos, destino: str, regiao:str, estado:str):
+    def separar_dados_por_estado(self, anos, destino: str, regiao:str, estado:str):
         if isinstance(anos, range):
             anos = list(anos)
             
@@ -157,7 +157,3 @@ class ExtractInmetData:
     def __verificar_pasta(self, path: str) -> bool:
         return os.path.exists(path)
     
-# Exemplo de uso
-inmetData = ExtractInmetData()
-inmetData.baixar_dados_por_ano([2024])
-inmetData.get_dados_por_estado([2024], "dataPrev", "CO", "BA")
