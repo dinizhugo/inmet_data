@@ -50,7 +50,7 @@ class MongoDB:
                 print(f">> O documento foi inserido no banco {collection_name}.\n")
             except DuplicateKeyError:
                 pass
-                #print("[ERROR] Violação de índice único")
+                # print("[ERROR] Violação de índice único")
         print("============================================")
 
         
@@ -78,6 +78,7 @@ class MongoDB:
                 db[collection_name].drop()
         else:
             print("[ERROR] O banco não possuí nenhuma coleção.")
+
 
 mongo = MongoDB('mongodb://localhost:27017/')
 data_years = range(2020,2025)
