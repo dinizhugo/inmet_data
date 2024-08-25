@@ -1,66 +1,105 @@
-# ExtractInmetData
+# Download e Extração de Dados Climáticos do INMET
 
-`ExtractInmetData` é uma classe Python para gerenciar o download e a extração de dados históricos meteorológicos do INMET. A classe suporta a realização das seguintes operações:
-
-- **Baixar dados de anos específicos**: Faz o download de arquivos ZIP contendo dados meteorológicos para os anos especificados.
-- **Extrair e organizar dados por estado**: Organiza e move arquivos extraídos para diretórios específicos baseados na região e no estado.
+* Este projeto foi desenvolvido como parte do trabalho do Instituto Federal da Paraíba (IFPB) para o "**Construção de Dashboards para Auxílio na Análise de Dados Meteorológicos**", coordenado por *Valnyr Vasconcelos Lira*. O objetivo principal deste projeto é fornecer uma ferramenta eficiente para a extração e processamento de dados anuais fornecidos pelo INMET ([INMET Portal](https://portal.inmet.gov.br/uploads/dadoshistoricos)).
+* O projeto facilita o acesso a dados climáticos históricos, armazenados em formato ZIP, e permite seu processamento para análise. Além disso, inclui uma opção de integração com o banco de dados MongoDB. No entanto, a integração com o MongoDB é opcional, permitindo ao usuário optar por não utilizá-la, se assim desejar.
 
 ## Instalação
 
 Certifique-se de ter o Python 3.x instalado em seu ambiente. Instale as dependências necessárias utilizando `pip`:
 
+1. Clone o repositório:
+
 ```bash
-pip install requests
+git clone https://github.com/seu-usuario/seu-repositorio.git
 ```
 
-## Uso
+2. Baixe as dependências:
+
+```bash
+pip install requests
+pip install pandas
+pip install shutil
+pip install zipfile
+```
+
+## Instruções de Execução e Uso
 
 ### Inicialização
 
-Crie uma instância da classe `ExtractInmetData` fornecendo o caminho para o diretório onde os dados serão armazenados. Se o diretório não existir, ele será criado automaticamente.
+Crie uma instância da classe `DownloadInmetData` fornecendo o caminho para o diretório onde os dados serão baixados. Se o diretório não existir, ele será criado automaticamente.
 
 ```python
-from extract_inmet_data import ExtractInmetData
+from download_inmet_data import DownloadInmetData
 
-inmet_data = ExtractInmetData(path="data/years")
+baixador = DownloadInmetData(path="data/years")
 ```
 
-### Baixar Dados
+### Exemplos de Comandos
 
-Baixe dados de anos específicos. Os dados serão armazenados em arquivos ZIP no diretório configurado.
+Baixe dados de anos específicos. *Os dados serão armazenados em arquivos ZIP no diretório configurado, extraidos e separados por região e estados.*
 
 ```python
-inmet_data.baixar_dados_por_ano([2024])
+from download_inmet_data import DownloadInmetData
+
+# Exemplo de uso
+baixador = DownloadInmetData()
+# Baixar dados correspondente ao ano de 2024
+baixador.download_data_by_year(2024)
 ```
+
+> *Lembre-se de que o ano especificado como parâmetro **deve estar dentro do intervalo de anos disponibilizado pelo INMET**. Caso contrário, o programa não conseguirá realizar o download dos dados.Lembrando que, o ano passado como parametro precisar estar num intervalo disponivel fornecido pelo inmet, caso contrario o programa não conseguira baixar*
 
 ### Extrair Dados por Estado
 
-Após o download dos arquivos ZIP, você pode extrair e organizar os dados por estado. Especifique a região e o estado para os quais os dados devem ser movidos.
+Após o download dos arquivos ZIP, você pode extrair e tratar os dados por estado. Especifique o ano, região e estado para os quais os dados devem ser movidos.
 
 ```python
-inmet_data.get_dados_por_estado([2024], "dataPrev", "CO", "BA")
+from collect_inmet_data import CollectInmetData
+
+# Crie uma nova instancia
+''' Forneça o diretório principal onde ele irá coletar os dados 
+    (Coloque o mesmo que você usou para baixar os dados)
+'''
+collect = CollectInmetData(path="data/years")
+data = collect.extract_inmet_data(2024, "NE", "PB")
 ```
+
+o método `extract_inmet_data(year:int, region:str, state:str` retorna um valor do tipo `dict`.
+
+Estrutura dos valores retornados:
+
+```json
+{
+    "NOME_ESTAÇÃO-ESTADO-CODIGO_ESTAÇÃO":
+    {
+        "UF": "X",
+        "ESTACAO": "Y",
+        "CODIGO": "A---",
+        "LATITUDE": "W",
+        "lONGITUDE": "Z",
+        "DADOS": [
+            "DATA": "XX-YY-ZZZZ",
+            "HORA": "VVVV UTC",
+            "PRECIPITACAO_TOTAL": X,
+            "PRESSAO_ATMOSFERICA_NIVEL_ESTACAO": Y,
+            "PRESSAO_ATMOSFERICA_MAX": Z,
+            ...
+            "VENTO_RAJADA_MAX": A,
+            "VENTO_VELOCIDADE": B
+        ]
+    }
+}
+```
+
+> O valor do tipo dicionário pode ser utilizado de diversas maneiras, incluindo o armazenamento de dados em um banco de dados, a resposta a uma API, a geração de arquivos, entre outras aplicações. Este projeto inclui uma integração opcional com o banco de dados MongoDB. No entanto, uma vez que a **implementação do banco de dados é facultativa**, não serão fornecidos detalhes específicos sobre como utilizá-lo e integrá-lo ao projeto.
 
 ### Funções Internas
 
-- **`__baixar_arquivo(url: str, destino: str)`**: Faz o download de um arquivo a partir de uma URL.
-- **`__extrair_arquivo_zip(zip_path: str, ano: int)`**: Extrai um arquivo ZIP para um diretório específico.
-- **`__criar_pasta(path: str)`**: Cria um diretório se ele não existir.
-- **`__verificar_pasta(path: str) -> bool`**: Verifica se um diretório existe.
-- **`__parse_filename(filename: str) -> dict`**: Analisa o nome do arquivo para extrair informações como região, estado e datas.
-
-## Exemplo
-
-```python
-# Criar uma instância da classe
-inmet_data = ExtractInmetData()
-
-# Baixar dados para o ano de 2024
-inmet_data.baixar_dados_por_ano([2024])
-
-# Extrair e organizar dados para a região CO e estado BA
-inmet_data.get_dados_por_estado([2024], "dataPrev", "CO", "BA")
-```
+- **`__create_folders(self, path_name:str) -> str`**: Cria um diretório se ele não existir.
+- **`__extract_zip_files(self, zip_path:str, year:int)`**: Extrai um arquivo ZIP para um diretório específico.
+- **`__organize_inmet_files(self, path_name:str)`**: Organiza os arquivos, separando eles por região e estado.
+- **`__get_files_list(self, year:int, region:str, state:str) -> list`**: Retorna uma lista dos arquivos presente no diretório.
+- **`__process_data(self,dataframe: pd.DataFrame) -> pd.DataFrame`**: Faz o tratamento dos dados.
 
 ## Contribuindo
 
