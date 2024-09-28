@@ -22,6 +22,7 @@ class CollectInmetData:
             
             header_dataframe = pd.read_csv(current_path, encoding='latin1', on_bad_lines='skip', sep=';', nrows=8, header=None)
             main_dataframe = pd.read_csv(current_path, encoding='latin1', on_bad_lines='skip', sep=';', skiprows=8)
+            
             main_dataframe = self.__process_data(main_dataframe)
             
             uf = header_dataframe.iloc[1, 1]
@@ -64,7 +65,7 @@ class CollectInmetData:
                 }
                 temp['DADOS'].append(register)
             
-            key = f'{estacao}-{uf}-{codigo}'
+            key = f'{codigo}'
             
             data[key] = temp
 
@@ -113,6 +114,9 @@ class CollectInmetData:
         ]
         for column in columns_to_int:
             dataframe[column] = dataframe[column].astype('Int64')
+        
+        dataframe['DATA'] = pd.to_datetime(dataframe['DATA'], format="%Y/%m/%d")
+        dataframe['DATA'] = dataframe['DATA'].apply(lambda x: x.replace(hour=0, minute=0, second=0, microsecond=0))
         
         dataframe = dataframe.map(lambda x: None if pd.isna(x) else x)
         
