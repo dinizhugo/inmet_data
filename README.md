@@ -1,6 +1,6 @@
 # Download e Extração de Dados Climáticos do INMET
 
-* Este projeto foi desenvolvido como parte do trabalho do Instituto Federal da Paraíba (IFPB) para o "**Construção de Dashboards para Auxílio na Análise de Dados Meteorológicos**", coordenado por *Valnyr Vasconcelos Lira*. O objetivo principal deste projeto é fornecer uma ferramenta eficiente para a extração e processamento de dados anuais fornecidos pelo INMET ([INMET Portal](https://portal.inmet.gov.br/uploads/dadoshistoricos)).
+* Este projeto foi desenvolvido como parte do trabalho do Instituto Federal da Paraíba (IFPB) para o "**Construção de Dashboards para Auxílio na Análise de Dados Meteorológicos**", coordenado por *Valnyr Vasconcelos Lira*. O objetivo principal deste projeto é fornecer uma ferramenta eficiente para a extração e processamento de dados fornecidos pelo INMET ([INMET Portal](https://portal.inmet.gov.br/uploads/dadoshistoricos)).
 * O projeto facilita o acesso a dados climáticos históricos, armazenados em formato ZIP, e permite seu processamento para análise. Além disso, inclui uma opção de integração com o banco de dados MongoDB. No entanto, a integração com o MongoDB é opcional, permitindo ao usuário optar por não utilizá-la, se assim desejar.
 
 ## Instalação
