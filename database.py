@@ -1,6 +1,5 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure, DuplicateKeyError
-from collect_inmet_data import CollectInmetData
 
 class MongoDB:
     def __init__(self, connection_string):
@@ -17,7 +16,6 @@ class MongoDB:
     def get_data_base(self):
         if self.__client:
             db = self.__client[self.DB]
-            # db['colecao_inicial'].insert_one({'chave_inicial': 'valor_inicial'})
             return db
         else:
             print("[ERROR] Acesso ao banco de dados falhou. Conexão não estabelecida. \n")            
@@ -41,7 +39,7 @@ class MongoDB:
                 documentos = []
                 for chave, valor in data.items():
                     documento = valor
-                    documento['_id'] = chave  # Adiciona a chave como o _id do documento
+                    documento['_id'] = chave
                     documentos.append(documento)
                 
                 print("Inserindo dados...")
@@ -49,14 +47,17 @@ class MongoDB:
                 print(f">> O documento foi inserido no banco {collection_name}.\n")
             except DuplicateKeyError:
                 pass
-                # print("[ERROR] Violação de índice único")
         print("============================================")
 
         
-    def _create_collections(self, collection_names):
+    def create_collections(self, collection_names):
         print("============ Criando Coleções ===============")
+        
         if isinstance(collection_names, range):
             collection_names = list(collection_names)
+            
+        if isinstance(collection_names, int):
+            collection_names = [collection_names]
         
         db = self.get_data_base()
         for collection in collection_names:
@@ -77,13 +78,3 @@ class MongoDB:
                 db[collection_name].drop()
         else:
             print("[ERROR] O banco não possuí nenhuma coleção.")
-
-
-mongo = MongoDB('mongodb://localhost:27017/')
-data_years = range(2020,2025)
-mongo._create_collections(data_years)
-
-#Testes de inserção no banco
-collect = CollectInmetData("data/years")
-json = collect.extract_inmet_data(2024, "NE", "PB")
-mongo.insert_data_inmet("2024", json)
