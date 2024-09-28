@@ -100,7 +100,3 @@ class DownloadInmetData:
                     print(f"[ERROR] Não foi possivel encontrar o arquivo: {current_path_file}.\n")
                 
         print(f">> Os Arquivo foram movidos com sucesso!\n")
-                    
-
-inmet_data = DownloadInmetData()
-inmet_data.download_data_by_year(2024)
