@@ -16,10 +16,7 @@ git clone https://github.com/seu-usuario/seu-repositorio.git
 2. Baixe as dependências:
 
 ```bash
-pip install requests
-pip install pandas
-pip install shutil
-pip install zipfile
+pip install -r requirements.txt
 ```
 
 ## Instruções de Execução e Uso
