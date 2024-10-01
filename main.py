@@ -1,7 +1,6 @@
-from database import CollectInmetData
-from download_inmet_data import DownloadInmetData
-from collect_inmet_data import CollectInmetData
-from database import MongoDB
+from download_inmet_data import DownloadInmetData;
+from collect_inmet_data import CollectInmetData;
+from database import MongoDB;
 
 mongo = MongoDB('mongodb://localhost:27017/')
 downloader = DownloadInmetData()
