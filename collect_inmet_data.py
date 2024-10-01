@@ -30,12 +30,14 @@ class CollectInmetData:
             codigo = header_dataframe.iloc[3, 1]
             latitude = header_dataframe.iloc[4, 1]
             longitude = header_dataframe.iloc[5, 1]
+            data_fundacao = header_dataframe.iloc[7, 1]
             
             temp['UF'] = uf
             temp['ESTACAO'] = estacao
             temp['CODIGO'] = codigo
             temp['LATITUDE'] = latitude
             temp['LONGITUDE'] = longitude
+            temp['DATA_FUNDAÇÃO'] = data_fundacao
             temp['DADOS'] = []
             
             dataframe_temp = main_dataframe.iloc[:, :19]
@@ -115,8 +117,7 @@ class CollectInmetData:
         for column in columns_to_int:
             dataframe[column] = dataframe[column].astype('Int64')
         
-        dataframe['DATA'] = pd.to_datetime(dataframe['DATA'], format="%Y/%m/%d")
-        dataframe['DATA'] = dataframe['DATA'].apply(lambda x: x.replace(hour=0, minute=0, second=0, microsecond=0))
+        dataframe['DATA'] = pd.to_datetime(dataframe['DATA'], format='%Y/%m/%d').dt.strftime('%Y-%m-%d')
         
         dataframe = dataframe.map(lambda x: None if pd.isna(x) else x)
         
