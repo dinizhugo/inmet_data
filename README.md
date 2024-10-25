@@ -67,24 +67,38 @@ Estrutura dos valores retornados:
 
 ```json
 {
-    "NOME_ESTAÇÃO-ESTADO-CODIGO_ESTAÇÃO":
+  "_id": "A000_YYYY-MM-DD",
+  "CODIGO": "A000",
+  "DATA": "YYYY-MM-DD",
+  "MEDICOES": [
     {
-        "UF": "X",
-        "ESTACAO": "Y",
-        "CODIGO": "A---",
-        "LATITUDE": "W",
-        "lONGITUDE": "Z",
-        "DADOS": [
-            "DATA": "XX-YY-ZZZZ",
-            "HORA": "VVVV UTC",
-            "PRECIPITACAO_TOTAL": X,
-            "PRESSAO_ATMOSFERICA_NIVEL_ESTACAO": Y,
-            "PRESSAO_ATMOSFERICA_MAX": Z,
-            ...
-            "VENTO_RAJADA_MAX": A,
-            "VENTO_VELOCIDADE": B
-        ]
-    }
+      "HORA": "0000 UTC",
+      "PRECIPITACAO_TOTAL": 0,
+      "PRESSAO_ATMOSFERICA_NIVEL_ESTACAO": 949.1,
+      "PRESSAO_ATMOSFERICA_MAX": 949.1,
+      "PRESSAO_ATMOSFERICA_MIN": 948.3,
+      "RADIACAO_GLOBAL": null,
+      "TEMP_BULBO_SECO": 23,
+      "TEMP_PONTO_ORVALHO": 21.4,
+      "TEMP_MAX": 23.1,
+      "TEMP_MIN": 23,
+      "TEMP_ORVALHO_MAX": 21.4,
+      "TEMP_ORVALHO_MIN": 21.3,
+      "UMIDADE_RELATIVA_MAX": 91,
+      "UMIDADE_RELATIVA_MIN": 89,
+      "UMIDADE_RELATIVA": 91,
+      "VENTO_DIRECAO": null,
+      "VENTO_RAJADA_MAX": null,
+      "VENTO_VELOCIDADE": null
+    },
+    { ... },
+    ...
+  ],
+  "MEDIA_PRECIPITACAO_TOTAL": X,
+  "MEDIA_PRESSAO_ATMOSFERICA_NIVEL_ESTACAO": Y,
+  "MEDIA_PRESSAO_ATMOSFERICA_MAX": Z,
+  "MEDIA_PRESSAO_ATMOSFERICA_MIN": W,
+  ...
 }
 ```
 
