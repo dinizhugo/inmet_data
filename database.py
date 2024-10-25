@@ -29,6 +29,25 @@ class MongoDB:
         else:
             print("[ERROR] Não foi possível acessar a coleção com esse nome.\n")
             return None
+      
+    def insert_header_data_inmet(self, data: dict):
+        collection = self.get_collection("informacoes_estacoes")
+        if collection is None:
+            self.create_collection("informacoes_estacoes")
+            collection = self.get_collection("informacoes_estacoes")
+        
+        try:
+            documentos = []
+            for chave, valor in data.items():
+                documento = valor
+                documento["_id"] = chave
+                documentos.append(documento)
+
+            collection.insert_many(documentos)
+            print(f">> Documentos inseridos na coleção 'informacoes_estacoes'.\n")
+        except Exception as e:
+            print(f"[ERROR] Um ou mais documentos já existem com essas chaves.\n error: {e}")
+
     
     def insert_data_inmet(self, collection_name:str, data:dict):
         print("============ Inserindo dados ===============")
@@ -44,11 +63,19 @@ class MongoDB:
                 
                 print("Inserindo dados...")
                 collection.insert_many(documentos)
+                collection.create_index({'CODIGO': 1, 'DATA':1})
                 print(f">> O documento foi inserido no banco {collection_name}.\n")
-            except DuplicateKeyError:
-                pass
+            except Exception as e:
+                print(f"Erro ao inserir os dados: {str(e)}")
         print("============================================")
 
+    def create_collection(self, collection_name: str):
+        db = self.get_data_base()
+        if collection_name not in db.list_collection_names():
+            db.create_collection(collection_name)
+            print(f">> A coleção '{collection_name}' foi criada com sucesso!\n")
+        else:
+            print("[ERROR] Já existe uma coleção com esse nome.\n")
         
     def create_collections(self, collection_names):
         print("============ Criando Coleções ===============")
