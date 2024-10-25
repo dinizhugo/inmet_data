@@ -88,7 +88,8 @@ class CollectInmetData:
             'UMIDADE_RELATIVA_MIN': 'mean',
             'UMIDADE_RELATIVA': 'mean',
             'VENTO_RAJADA_MAX': 'mean',
-            'VENTO_VELOCIDADE': 'mean'
+            'VENTO_VELOCIDADE': 'mean',
+            'VENTO_DIRECAO': 'mean'
         }).reset_index()
             
             for _, row in grouped_data.iterrows():
