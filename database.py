@@ -95,13 +95,3 @@ class MongoDB:
                 db.create_collection(name)
                 print(f">> A coleção foi '{name}' criado com  sucesso!\n")
         print("=================================================\n")
-    
-    # Uso apenas para testes, se todas as coleções forem deletadas
-    # O banco deixa de existir!   
-    def _drop_all_collections(self):
-        db = self.get_data_base()
-        if db.list_collection_names():
-            for collection_name in db.list_collection_names():
-                db[collection_name].drop()
-        else:
-            print("[ERROR] O banco não possuí nenhuma coleção.")
